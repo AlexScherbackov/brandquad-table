@@ -1,6 +1,11 @@
 <template>
 	<div class="data-table__wrapper">
-		
+		<el-input
+			placeholder="Please input to filter table data"
+			v-model="filterValue"
+			clearable
+			class="margin__bottom--10">
+		</el-input>
 		<el-table
 			:data="displayedData"
 			stripe
@@ -50,6 +55,7 @@
 				tableColumns: [],
 				displayedData: [],
 				lastHeaderClick: null,
+				filterValue: ''
 			}
 		},
 		computed: {
@@ -73,7 +79,14 @@
 					this.checkDisplayedData();
 				} 
 			},
-			
+			filterValue(){
+				const filterData = this.data.filter(item => {
+					return Object.keys(item).some(element =>{
+						return String(item[element]).toLowerCase().search(this.filterValue.trim().toLowerCase()) != -1
+						})
+				})
+				this.formTableData(filterData);
+			}
 		},
 		methods: {
 			formTableData(arr){
