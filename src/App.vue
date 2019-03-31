@@ -5,13 +5,36 @@
 </template>
 
 <script>
+
+import {mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      showLoader: true
     }
-  }
+  },
+  watch: {
+      people: {
+        immediate: true,
+        handler(){
+          if(this.people.length > 0){
+            this.showLoader = false;
+          }
+        }
+      }
+    },
+    created(){
+        this.loadPeople();  
+    },
+    computed:{
+      ...mapGetters(['people']),
+    },
+    methods:{
+      ...mapActions(['loadPeople']),
+    }
 }
 </script>
 
