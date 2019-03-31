@@ -20,7 +20,6 @@ export default new Vuex.Store({
 				}
 			}).then(response => {
 					context.commit('loadPeople', response.data);
-					console.log(response.data);
 				})
 				.catch(error => {
 					console.log(error);
