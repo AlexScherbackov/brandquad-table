@@ -7,6 +7,7 @@
 			class="data-table margin__bottom--10"
 			cell-class-name="data-table__cell"
 			:default-sort = "{prop: 'id', order: 'ascending'}"
+			@header-click="headerClickHandler"
 		>
 			<el-table-column
 				v-for="(item, index) in tableColumns"
@@ -29,7 +30,10 @@
 	</div>
 </template>
 <script>
+	import {basicSortMethods} from '../mixins/basicSortMethods.js';
+
 	export default {
+		mixins: [basicSortMethods],
 		props: {
 			data: {
 				type: Array,
@@ -44,7 +48,8 @@
 				},
 				tableData: [],
 				tableColumns: [],
-				displayedData: []
+				displayedData: [],
+				lastHeaderClick: null,
 			}
 		},
 		computed: {
@@ -103,7 +108,16 @@
 					return index >= lowRange && index < highRange;
 				})
 			},
-			
+			headerClickHandler(column, event){
+				
+				if(this.lastHeaderClick === event.target){
+					this.tableData = this.descendingSort(this.tableData, column.label);
+					this.lastHeaderClick = null;
+				} else {
+					this.tableData = this.ascendingSort(this.tableData, column.label);		
+					this.lastHeaderClick = event.target;			
+				}
+			},
 		}
 	}
 </script>
