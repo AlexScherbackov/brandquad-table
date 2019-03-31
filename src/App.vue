@@ -1,6 +1,9 @@
 <template>
   <div id="app">
    <preloader v-if="showLoader" class="preload"/>
+   <el-container v-else >
+      <pag-table :data="people"  />
+    </el-container>
   </div>
 </template>
 
@@ -10,10 +13,12 @@ import {mapActions} from 'vuex';
 import {mapGetters} from 'vuex';
 
 import preloader from './components/preloader.vue';
+import pagTable from './components/pagedTable.vue';
 
 export default {
   components: {
-    preloader
+    preloader,
+    pagTable
   },
   name: 'app',
   data () {
