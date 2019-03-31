@@ -13,6 +13,7 @@
 			cell-class-name="data-table__cell"
 			:default-sort = "{prop: 'id', order: 'ascending'}"
 			@header-click="headerClickHandler"
+			@cell-dblclick="cellDbClickHandler"
 		>
 			<el-table-column
 				v-for="(item, index) in tableColumns"
@@ -131,6 +132,18 @@
 					this.lastHeaderClick = event.target;			
 				}
 			},
+			cellDbClickHandler(row, column, cell, event){
+				const cellWrapp = cell.querySelector('.cell')
+				const currentValue = cellWrapp.innerHTML;
+				const inputTemplate = `<input type=\"text\"  value=\"${currentValue}\"> `;
+				cellWrapp.innerHTML = inputTemplate;
+
+				const input = cellWrapp.firstChild;
+				input.focus();
+				input.addEventListener('blur', ()=>{
+					cellWrapp.innerHTML = input.value;
+				})
+			}
 		}
 	}
 </script>
