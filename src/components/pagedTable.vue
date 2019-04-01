@@ -1,11 +1,15 @@
 <template>
 	<div class="data-table__wrapper">
-		<el-input
-			placeholder="Please input to filter table data"
-			v-model="filterValue"
-			clearable
-			class="margin__bottom--10">
-		</el-input>
+		<div class="data-table__row margin__bottom--10">
+			<el-input
+				placeholder="Please input to filter table data"
+				v-model="filterValue"
+				clearable
+				class="data-table__filter">
+			</el-input>
+			<el-button type="primary" @click="saveTable">Save table</el-button>
+		</div>
+		
 		<el-table
 			:data="displayedData"
 			stripe
@@ -146,6 +150,7 @@
 				input.focus();
 				input.addEventListener('blur', ()=>{
 					cellWrapp.innerHTML = input.value;
+					this.tableData.find(item => item.id == row.id)[column.property] = input.value;
 				})
 			},
 			columnWidth(val){
@@ -153,7 +158,7 @@
 				const MIN_LENGTH = 3;
 				const BIG_LENGTH = 50;
 				const LENGTH = String(this.tableData[0][val]).trim().length;
-				console.log(val, LENGTH)
+				
 				if(LENGTH > BIG_LENGTH ){
 					return 'auto';
 				}	else if(LENGTH >= NORMAL_LENGTH && LENGTH <= BIG_LENGTH){
@@ -165,6 +170,11 @@
 				}
 				
 			},
+			saveTable(){
+				const KEY = new Date();
+				const DATA = JSON.stringify(this.tableData);
+				localStorage.setItem(KEY,DATA)
+			}
 		}
 	}
 </script>
@@ -177,7 +187,14 @@
 		&__wrapper{
 			width: 100%;
 			padding: 20px 5%;
-			
+		}
+		&__row{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		&__filter{
+			max-width: 320px;
 		}
 	}
 
