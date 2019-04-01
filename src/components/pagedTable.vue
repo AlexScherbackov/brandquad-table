@@ -14,6 +14,7 @@
 			:default-sort = "{prop: 'id', order: 'ascending'}"
 			@header-click="headerClickHandler"
 			@cell-dblclick="cellDbClickHandler"
+			border
 		>
 			<el-table-column
 				v-for="(item, index) in tableColumns"
@@ -21,6 +22,8 @@
 				:prop="item"
 				:label="item"
 				:width="columnWidth(item)"
+				resizable
+				align="center"
 			>
 			</el-table-column>
 		</el-table>
@@ -136,7 +139,7 @@
 			cellDbClickHandler(row, column, cell, event){
 				const cellWrapp = cell.querySelector('.cell')
 				const currentValue = cellWrapp.innerHTML;
-				const inputTemplate = `<input type=\"text\"  value=\"${currentValue}\"> `;
+				const inputTemplate = `<input style=\"width:100%\" type=\"text\"  value=\"${currentValue}\"> `;
 				cellWrapp.innerHTML = inputTemplate;
 
 				const input = cellWrapp.firstChild;
@@ -150,14 +153,17 @@
 				const MIN_LENGTH = 3;
 				const BIG_LENGTH = 50;
 				const LENGTH = String(this.tableData[0][val]).trim().length;
-
+				console.log(val, LENGTH)
 				if(LENGTH > BIG_LENGTH ){
-					return 320;
-				}
-				if(LENGTH < MIN_LENGTH ){
+					return 'auto';
+				}	else if(LENGTH >= NORMAL_LENGTH && LENGTH <= BIG_LENGTH){
+					return LENGTH*10;
+				} else if(LENGTH < MIN_LENGTH ){
 					return 50;
+				}	else {
+					return 120;
 				}
-				return  'auto';
+				
 			},
 		}
 	}
@@ -166,8 +172,14 @@
 	.data-table{
 		display: block;
 		width: 100%;
+		border-top: 1px solid #DCDFE6;
+		border-bottom: 1px solid #DCDFE6;
 		&__wrapper{
 			width: 100%;
+			padding: 20px 5%;
+			
 		}
 	}
+
+	
 </style>
