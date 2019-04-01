@@ -25,7 +25,6 @@
 				:key="index"
 				:prop="item"
 				:label="item"
-				:width="columnWidth(item)"
 				resizable
 				align="center"
 			>
@@ -153,27 +152,10 @@
 					this.tableData.find(item => item.id == row.id)[column.property] = input.value;
 				})
 			},
-			columnWidth(val){
-				const NORMAL_LENGTH = 20;
-				const MIN_LENGTH = 3;
-				const BIG_LENGTH = 50;
-				const LENGTH = String(this.tableData[0][val]).trim().length;
-				
-				if(LENGTH > BIG_LENGTH ){
-					return 'auto';
-				}	else if(LENGTH >= NORMAL_LENGTH && LENGTH <= BIG_LENGTH){
-					return LENGTH*10;
-				} else if(LENGTH < MIN_LENGTH ){
-					return 50;
-				}	else {
-					return 120;
-				}
-				
-			},
 			saveTable(){
-				const KEY = new Date();
-				const DATA = JSON.stringify(this.tableData);
-				localStorage.setItem(KEY,DATA)
+				const key = new Date();
+				const data = JSON.stringify(this.tableData);
+				localStorage.setItem(key,data)
 			}
 		}
 	}
