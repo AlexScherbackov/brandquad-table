@@ -20,6 +20,7 @@
 				:key="index"
 				:prop="item"
 				:label="item"
+				:width="columnWidth(item)"
 			>
 			</el-table-column>
 		</el-table>
@@ -62,7 +63,7 @@
 		computed: {
 			paginationTotal(){
 				return this.tableData.length;
-			}
+			},
 		},
 		watch: {
 			data: {
@@ -143,7 +144,21 @@
 				input.addEventListener('blur', ()=>{
 					cellWrapp.innerHTML = input.value;
 				})
-			}
+			},
+			columnWidth(val){
+				const NORMAL_LENGTH = 20;
+				const MIN_LENGTH = 3;
+				const BIG_LENGTH = 50;
+				const LENGTH = String(this.tableData[0][val]).trim().length;
+
+				if(LENGTH > BIG_LENGTH ){
+					return 320;
+				}
+				if(LENGTH < MIN_LENGTH ){
+					return 50;
+				}
+				return  'auto';
+			},
 		}
 	}
 </script>
